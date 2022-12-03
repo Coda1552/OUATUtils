@@ -5,15 +5,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import terrablender.api.SurfaceRuleManager;
 
-public class TestSurfaceRuleData {
-    private static final SurfaceRules.RuleSource DIRT = makeStateRule(Blocks.DIRT);
-    private static final SurfaceRules.RuleSource GRASS_BLOCK = makeStateRule(Blocks.GRASS_BLOCK);
-    private static final SurfaceRules.RuleSource STONE = makeStateRule(Blocks.STONE);
+public class OUATSurfaceRuleData {
+    private static final SurfaceRules.RuleSource GRAVEL = makeStateRule(Blocks.GRAVEL);
 
     public static SurfaceRules.RuleSource makeRules() {
 
         return SurfaceRules.sequence(
-            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.REGAL_MEADOW), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD))
+            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.REGAL_MEADOW), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD)),
+            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.STORMY_SEA), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD))
         );
     }
 

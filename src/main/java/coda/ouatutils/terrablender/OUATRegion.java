@@ -12,8 +12,8 @@ import terrablender.api.RegionType;
 
 import java.util.function.Consumer;
 
-public class TestRegion extends Region {
-    public TestRegion(ResourceLocation name, int weight)
+public class OUATRegion extends Region {
+    public OUATRegion(ResourceLocation name, int weight)
     {
         super(name, RegionType.OVERWORLD, weight);
     }
@@ -22,6 +22,7 @@ public class TestRegion extends Region {
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
             builder.replaceBiome(Biomes.PLAINS, OUATBiomes.REGAL_MEADOW);
+            builder.replaceBiome(Biomes.DEEP_COLD_OCEAN, OUATBiomes.STORMY_SEA);
         });
     }
 }

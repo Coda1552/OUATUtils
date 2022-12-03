@@ -8,6 +8,7 @@ import net.minecraft.world.level.biome.Biome;
 
 public class OUATBiomes {
     public static final ResourceKey<Biome> REGAL_MEADOW = register("regal_meadow");
+    public static final ResourceKey<Biome> STORMY_SEA = register("stormy_sea");
 
     private static ResourceKey<Biome> register(String name) {
         return ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(OUATUtils.MOD_ID, name));

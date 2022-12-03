@@ -1,6 +1,7 @@
 package coda.ouatutils.terrablender;
 
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
+import net.minecraft.data.worldgen.placement.AquaticPlacements;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvents;
@@ -8,6 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -70,5 +72,26 @@ public class OUATOverworldBiomes {
         Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
         
         return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.5F, 0.7F, spawnBuilder, biomeBuilder, music);
+    }
+
+    public static Biome stormySea() {
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+        BiomeDefaultFeatures.oceanSpawns(spawnBuilder, 3, 4, 15);
+        spawnBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 15, 1, 5));
+
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
+        globalOverworldGeneration(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
+        BiomeDefaultFeatures.addWaterTrees(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultFlowers(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AquaticPlacements.SEAGRASS_DEEP_COLD);
+        BiomeDefaultFeatures.addDefaultSeagrass(biomeBuilder);
+        BiomeDefaultFeatures.addColdOceanExtraVegetation(biomeBuilder);
+
+        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.OCEAN, 0.25F, 1.0F, 0x4452b3, 0x100e1d, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 }
