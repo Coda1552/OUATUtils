@@ -47,26 +47,17 @@ public class OUATUtils {
         Player player = e.player;
         BlockPos pos = player.blockPosition();
         Level level = player.level;
-        Minecraft mc = Minecraft.getInstance();
 
         if (level instanceof ServerLevel serverLevel && serverLevel.getBiome(pos).is(OUATBiomes.STORMY_SEA) && !serverLevel.serverLevelData.isThundering()) {
-            level.rainLevel = 1.0F;
-            level.oRainLevel = 1.0F;
-            mc.level.rainLevel = 1.0F;
-            mc.level.oRainLevel = 1.0F;
-            mc.level.thunderLevel = 1.0F;
-            mc.level.oThunderLevel = 1.0F;
-            serverLevel.serverLevelData.setThundering(true);
-            serverLevel.serverLevelData.setRaining(true);
+            serverLevel.setThunderLevel(1.0F);
+            serverLevel.setRainLevel(1.0F);
        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            // Given we only add two biomes, we should keep our weight relatively low.
             Regions.register(new OUATRegion(new ResourceLocation(MOD_ID, "overworld"), 2));
 
-            // Register our surface rules
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, OUATSurfaceRuleData.makeRules());
         });
     }
