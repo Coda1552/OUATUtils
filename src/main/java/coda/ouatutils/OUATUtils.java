@@ -5,12 +5,15 @@ import coda.ouatutils.terrablender.OUATOverworldBiomes;
 import coda.ouatutils.terrablender.OUATRegion;
 import coda.ouatutils.terrablender.OUATSurfaceRuleData;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
@@ -44,14 +47,15 @@ public class OUATUtils {
 
     // todo - region-specific rain for this biome?
     private void addWeather(TickEvent.PlayerTickEvent e) {
+        Minecraft minecraft = Minecraft.getInstance();
         Player player = e.player;
         BlockPos pos = player.blockPosition();
-        Level level = player.level;
+        ClientLevel cLevel = minecraft.level;
 
-        if (level instanceof ServerLevel serverLevel && serverLevel.getBiome(pos).is(OUATBiomes.STORMY_SEA) && !serverLevel.serverLevelData.isThundering()) {
-            //serverLevel.setThunderLevel(1.0F);
-            //serverLevel.setRainLevel(1.0F);
-       }
+        if (cLevel != null && cLevel.getBiome(pos).is(OUATBiomes.STORMY_SEA)) {
+            Vec3 camPos = minecraft.cameraEntity.position();
+            //minecraft.levelRenderer.renderSnowAndRain(minecraft.gameRenderer.lightTexture(), 1.0F, camPos.x, camPos.y, camPos.z);
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
