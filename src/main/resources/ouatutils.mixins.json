@@ -4,9 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ouatutils.refmap.json",
   "mixins": [
-    "LevelRendererMixin"
+
   ],
   "client": [
+    "LevelRendererMixin"
   ],
   "minVersion": "0.8"
 }
