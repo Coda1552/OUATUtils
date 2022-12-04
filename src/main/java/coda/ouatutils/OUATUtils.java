@@ -48,7 +48,6 @@ public class OUATUtils {
         registry.register(OUATOverworldBiomes.stormySea().setRegistryName(OUATBiomes.STORMY_SEA.location()));
     }
 
-    // todo - region-specific rain for this biome?
     private void addWeather(TickEvent.PlayerTickEvent e) {
         Player player = e.player;
         BlockPos pos = player.blockPosition();
