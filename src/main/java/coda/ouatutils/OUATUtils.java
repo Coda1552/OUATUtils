@@ -11,12 +11,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -47,14 +50,17 @@ public class OUATUtils {
 
     // todo - region-specific rain for this biome?
     private void addWeather(TickEvent.PlayerTickEvent e) {
-        Minecraft minecraft = Minecraft.getInstance();
         Player player = e.player;
         BlockPos pos = player.blockPosition();
-        ClientLevel cLevel = minecraft.level;
+        Level level = player.level;
 
-        if (cLevel != null && cLevel.getBiome(pos).is(OUATBiomes.STORMY_SEA)) {
-            Vec3 camPos = minecraft.cameraEntity.position();
-            //minecraft.levelRenderer.renderSnowAndRain(minecraft.gameRenderer.lightTexture(), 1.0F, camPos.x, camPos.y, camPos.z);
+        if (level instanceof ServerLevel sLevel && level.getBiome(pos).is(OUATBiomes.STORMY_SEA)) {
+            sLevel.setThunderLevel(1.0F);
+            sLevel.setRainLevel(1.0F);
+        }
+
+        if (level.getBiome(pos).is(OUATBiomes.STORMY_SEA) && e.player.isPassenger() && e.player.getVehicle() instanceof Boat boat && player.getRandom().nextFloat() > 0.65F) {
+            boat.onAboveBubbleCol(true);
         }
     }
 
