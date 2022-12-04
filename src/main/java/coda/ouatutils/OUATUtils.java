@@ -49,8 +49,8 @@ public class OUATUtils {
         Level level = player.level;
 
         if (level instanceof ServerLevel serverLevel && serverLevel.getBiome(pos).is(OUATBiomes.STORMY_SEA) && !serverLevel.serverLevelData.isThundering()) {
-            serverLevel.setThunderLevel(1.0F);
-            serverLevel.setRainLevel(1.0F);
+            //serverLevel.setThunderLevel(1.0F);
+            //serverLevel.setRainLevel(1.0F);
        }
     }
 
