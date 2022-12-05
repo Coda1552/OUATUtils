@@ -61,11 +61,6 @@ public class OUATUtils {
             ((ClientLevelExtension)level).setDark(false);
         }
 
-//        if (level instanceof ServerLevel sLevel && level.getBiome(pos).is(OUATBiomes.STORMY_SEA)) {
-//            sLevel.setThunderLevel(1.0F);
-//            sLevel.setRainLevel(1.0F);
-//        }
-
         if (level.random.nextInt(1000) == 0 && level.isClientSide && level.getBiome(pos).is(OUATBiomes.STORMY_SEA)) {
             level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + level.random.nextFloat() * 0.2F, false);
             level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 2.0F, 0.5F + level.random.nextFloat() * 0.2F, false);
