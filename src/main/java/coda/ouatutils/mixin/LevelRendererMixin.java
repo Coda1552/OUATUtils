@@ -7,10 +7,12 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
@@ -27,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 import static net.minecraft.client.renderer.LevelRenderer.getLightColor;
 
-@Debug(print = true, export = true)
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 
@@ -41,7 +42,7 @@ public class LevelRendererMixin {
     @Shadow
     private float[] rainSizeZ;
 
-    @Inject(at = @At("TAIL"), method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V")
+    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V")
     private void OUAT$renderRain(LightTexture pLightTexture, float pPartialTick, double pCamX, double pCamY, double pCamZ, CallbackInfo ci) {
         pLightTexture.turnOnLightLayer();
         Level level = Minecraft.getInstance().level;
@@ -54,9 +55,9 @@ public class LevelRendererMixin {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        int l = 1;
+        int l = 5;
         if (Minecraft.useFancyGraphics()) {
-            l = 2;
+            l = 10;
         }
 
         RenderSystem.depthMask(Minecraft.useShaderTransparency());
@@ -71,10 +72,6 @@ public class LevelRendererMixin {
                 double d0 = (double)this.rainSizeX[l1] * 0.5D;
                 double d1 = (double)this.rainSizeZ[l1] * 0.5D;
                 blockpos$mutableblockpos.set((double)k1, pCamY, (double)j1);
-                Biome biome = level.getBiome(blockpos$mutableblockpos).value();
-                if (!OUATBiomes.STORMY_SEA.getRegistryName().equals(biome.getRegistryName())) {
-                    continue;
-                }
                 int i2 = level.getHeight(Heightmap.Types.MOTION_BLOCKING, k1, j1);
                 int j2 = j - l;
                 int k2 = j + l;
@@ -87,32 +84,33 @@ public class LevelRendererMixin {
                 }
 
                 int l2 = Math.max(i2, j);
-
                 if (j2 != k2) {
                     Random random = new Random((long) (k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
                     blockpos$mutableblockpos.set(k1, j2, j1);
-                    if (i1 != 0) {
-                        if (i1 >= 0) {
-                            tesselator.end();
+                    if (level.getBiomeManager().getBiome(blockpos$mutableblockpos).is(OUATBiomes.STORMY_SEA)) {
+                        if (i1 != 0) {
+                            if (i1 >= 0) {
+                                tesselator.end();
+                            }
+
+                            i1 = 0;
+                            RenderSystem.setShaderTexture(0, RAIN_LOCATION);
+                            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
                         }
 
-                        i1 = 0;
-                        RenderSystem.setShaderTexture(0, RAIN_LOCATION);
-                        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+                        int i3 = this.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
+                        float f2 = -((float) i3 + pPartialTick) / 32.0F * (3.0F + random.nextFloat());
+                        double d2 = (double) k1 + 0.5D - pCamX;
+                        double d4 = (double) j1 + 0.5D - pCamZ;
+                        float f3 = (float) Math.sqrt(d2 * d2 + d4 * d4) / (float) l;
+                        float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F);
+                        blockpos$mutableblockpos.set(k1, l2, j1);
+                        int j3 = getLightColor(level, blockpos$mutableblockpos);
+                        bufferbuilder.vertex((double) k1 - pCamX - d0 + 0.5D, (double) k2 - pCamY, (double) j1 - pCamZ - d1 + 0.5D).uv(0.0F, (float) j2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
+                        bufferbuilder.vertex((double) k1 - pCamX + d0 + 0.5D, (double) k2 - pCamY, (double) j1 - pCamZ + d1 + 0.5D).uv(1.0F, (float) j2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
+                        bufferbuilder.vertex((double) k1 - pCamX + d0 + 0.5D, (double) j2 - pCamY, (double) j1 - pCamZ + d1 + 0.5D).uv(1.0F, (float) k2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
+                        bufferbuilder.vertex((double) k1 - pCamX - d0 + 0.5D, (double) j2 - pCamY, (double) j1 - pCamZ - d1 + 0.5D).uv(0.0F, (float) k2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
                     }
-
-                    int i3 = this.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 31;
-                    float f2 = -((float) i3 + pPartialTick) / 32.0F * (3.0F + random.nextFloat());
-                    double d2 = (double) k1 + 0.5D - pCamX;
-                    double d4 = (double) j1 + 0.5D - pCamZ;
-                    float f3 = (float) Math.sqrt(d2 * d2 + d4 * d4) / (float) l;
-                    float f4 = ((1.0F - f3 * f3) * 0.5F + 0.5F);
-                    blockpos$mutableblockpos.set(k1, l2, j1);
-                    int j3 = getLightColor(level, blockpos$mutableblockpos);
-                    bufferbuilder.vertex((double) k1 - pCamX - d0 + 0.5D, (double) k2 - pCamY, (double) j1 - pCamZ - d1 + 0.5D).uv(0.0F, (float) j2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
-                    bufferbuilder.vertex((double) k1 - pCamX + d0 + 0.5D, (double) k2 - pCamY, (double) j1 - pCamZ + d1 + 0.5D).uv(1.0F, (float) j2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
-                    bufferbuilder.vertex((double) k1 - pCamX + d0 + 0.5D, (double) j2 - pCamY, (double) j1 - pCamZ + d1 + 0.5D).uv(1.0F, (float) k2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
-                    bufferbuilder.vertex((double) k1 - pCamX - d0 + 0.5D, (double) j2 - pCamY, (double) j1 - pCamZ - d1 + 0.5D).uv(0.0F, (float) k2 * 0.25F + f2).color(1.0F, 1.0F, 1.0F, f4).uv2(j3).endVertex();
                 }
             }
         }
