@@ -49,13 +49,15 @@ public class OUATOverworldBiomes {
             builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:canary").get(), 10, 1, 4));
             builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:cardinal").get(), 10, 1, 4));
             builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:robin").get(), 10, 1, 4));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:butterfly").get(), 6, 1, 3));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:boar").get(), 15, 4, 4));
         }
     }
 
     public static Biome regalMeadow() {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.plainsSpawns(spawnBuilder);
         regalPlainsSpawns(spawnBuilder);
+        BiomeDefaultFeatures.commonSpawns(spawnBuilder);
 
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
         globalOverworldGeneration(biomeBuilder);
@@ -66,10 +68,11 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addMeadowVegetation(biomeBuilder);
         BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
         BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
+        BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
 
         Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
         
-        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.5F, 0.7F, spawnBuilder, biomeBuilder, music);
+        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.5F, 0.5F, spawnBuilder, biomeBuilder, music);
     }
 
     public static Biome stormySea() {
@@ -91,5 +94,32 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addColdOceanExtraVegetation(biomeBuilder);
 
         return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.OCEAN, 0.25F, 1.0F, 0x4452b3, 0x100e1d, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+    }
+
+    public static void rollingHillsSpawns(MobSpawnSettings.Builder builder) {
+        boolean naturalist = ModList.get().isLoaded("naturalist");
+
+        if (naturalist) {
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:deer").get(), 6, 1, 3));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:boar").get(), 15, 4, 4));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:butterfly").get(), 6, 1, 3));
+        }
+    }
+
+    public static Biome rollingHills() {
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+        BiomeDefaultFeatures.plainsSpawns(spawnBuilder);
+        rollingHillsSpawns(spawnBuilder);
+
+        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
+        globalOverworldGeneration(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
+        BiomeDefaultFeatures.addPlainGrass(biomeBuilder);
+        BiomeDefaultFeatures.addMeadowVegetation(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
+        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
+
+        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.6F, 0.4F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 }
