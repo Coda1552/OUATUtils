@@ -21,7 +21,7 @@ public class OUATRegion extends Region {
     @Override
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
-            builder.replaceBiome(Biomes.SUNFLOWER_PLAINS, OUATBiomes.REGAL_MEADOW);
+            builder.replaceBiome(Biomes.PLAINS, OUATBiomes.REGAL_MEADOW);
             builder.replaceBiome(Biomes.DEEP_COLD_OCEAN, OUATBiomes.STORMY_SEA);
             builder.replaceBiome(Biomes.PLAINS, OUATBiomes.ROLLING_HILLS);
         });

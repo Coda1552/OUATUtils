@@ -8,18 +8,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -50,13 +46,7 @@ public class OUATUtils {
         registry.register(OUATOverworldBiomes.rollingHills().setRegistryName(OUATBiomes.ROLLING_HILLS.location()));
     }
 
-    private void checkSpawns(LivingSpawnEvent.CheckSpawn e) {
-        Entity entity = e.getEntity();
-        LevelAccessor level = e.getWorld();
-
-        if (e.getSpawnReason() == MobSpawnType.NATURAL && entity.getType().is(OUATTags.FARM_ANIMALS) && (!level.getBiome(entity.blockPosition()).is(OUATBiomes.ROLLING_HILLS) || !level.getBiome(entity.blockPosition()).is(Biomes.PLAINS))) {
-            e.setCanceled(true);
-        }
+    private void checkSpawns(BiomeLoadingEvent e) {
     }
 
     private void addWeather(TickEvent.PlayerTickEvent e) {

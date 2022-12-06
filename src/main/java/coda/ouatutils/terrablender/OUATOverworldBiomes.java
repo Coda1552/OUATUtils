@@ -66,6 +66,7 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
         BiomeDefaultFeatures.addPlainGrass(biomeBuilder);
         BiomeDefaultFeatures.addMeadowVegetation(biomeBuilder);
+        BiomeDefaultFeatures.addMountainTrees(biomeBuilder);
         BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
         BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
         BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
