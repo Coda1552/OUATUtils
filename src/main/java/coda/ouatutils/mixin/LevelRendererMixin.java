@@ -153,7 +153,7 @@ public abstract class LevelRendererMixin {
         LevelReader levelreader = this.minecraft.level;
         BlockPos blockpos = new BlockPos(pCamera.getPosition());
         BlockPos blockpos1 = null;
-        int i = (int)(100.0F) / (this.minecraft.options.particles == ParticleStatus.DECREASED ? 2 : 1);
+        int i = (int)(100.0F) / (this.minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
 
         for(int j = 0; j < i; ++j) {
             int k = random.nextInt(21) - 10;
@@ -161,7 +161,7 @@ public abstract class LevelRendererMixin {
             BlockPos blockpos2 = levelreader.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, blockpos.offset(k, 0, l));
             if (blockpos2.getY() > levelreader.getMinBuildHeight() && blockpos2.getY() <= blockpos.getY() + 10 && blockpos2.getY() >= blockpos.getY() - 10 && level.getBiome(blockpos2).is(OUATBiomes.STORMY_SEA)) {
                 blockpos1 = blockpos2.below();
-                if (this.minecraft.options.particles == ParticleStatus.MINIMAL) {
+                if (this.minecraft.options.particles().get() == ParticleStatus.MINIMAL) {
                     break;
                 }
 

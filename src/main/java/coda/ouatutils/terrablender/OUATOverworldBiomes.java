@@ -24,12 +24,12 @@ public class OUATOverworldBiomes {
         return Mth.hsvToRgb(0.62222224F - $$1 * 0.05F, 0.5F + $$1 * 0.1F, 1.0F);
     }
 
-    private static Biome biome(Biome.Precipitation precipitation, Biome.BiomeCategory category, float temperature, float downfall, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music) {
-        return biome(precipitation, category, temperature, downfall, 4159204, 329011, spawnBuilder, biomeBuilder, music);
+    private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music) {
+        return biome(precipitation, temperature, downfall, 4159204, 329011, spawnBuilder, biomeBuilder, music);
     }
 
-    private static Biome biome(Biome.Precipitation precipitation, Biome.BiomeCategory category, float temperature, float downfall, int waterColor, int waterFogColor, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music) {
-        return (new Biome.BiomeBuilder()).precipitation(precipitation).biomeCategory(category).temperature(temperature).downfall(downfall).specialEffects((new BiomeSpecialEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(calculateSkyColor(temperature)).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(music).build()).mobSpawnSettings(spawnBuilder.build()).generationSettings(biomeBuilder.build()).build();
+    private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, int waterColor, int waterFogColor, MobSpawnSettings.Builder spawnBuilder, BiomeGenerationSettings.Builder biomeBuilder, @Nullable Music music) {
+        return (new Biome.BiomeBuilder()).precipitation(precipitation).temperature(temperature).downfall(downfall).specialEffects((new BiomeSpecialEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(calculateSkyColor(temperature)).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS).backgroundMusic(music).build()).mobSpawnSettings(spawnBuilder.build()).generationSettings(biomeBuilder.build()).build();
     }
 
     private static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
@@ -73,7 +73,7 @@ public class OUATOverworldBiomes {
 
         Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
         
-        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.5F, 0.5F, spawnBuilder, biomeBuilder, music);
+        return biome(Biome.Precipitation.RAIN, 0.5F, 0.5F, spawnBuilder, biomeBuilder, music);
     }
 
     public static Biome stormySea() {
@@ -94,7 +94,7 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addDefaultSeagrass(biomeBuilder);
         BiomeDefaultFeatures.addColdOceanExtraVegetation(biomeBuilder);
 
-        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.OCEAN, 0.25F, 1.0F, 0x4452b3, 0x100e1d, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        return biome(Biome.Precipitation.RAIN, 0.25F, 1.0F, 0x4452b3, 0x100e1d, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 
     public static void rollingHillsSpawns(MobSpawnSettings.Builder builder) {
@@ -121,6 +121,6 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
         BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
 
-        return biome(Biome.Precipitation.RAIN, Biome.BiomeCategory.PLAINS, 0.6F, 0.4F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
+        return biome(Biome.Precipitation.RAIN, 0.6F, 0.4F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 }

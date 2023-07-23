@@ -1,0 +1,5 @@
+{
+  "type": "forge:remove_spawns",
+  "biomes": "#ouatutils:no_farm_animal_spawns",
+  "entity_types": "#ouatutils:farm_animal_spawns"
+}

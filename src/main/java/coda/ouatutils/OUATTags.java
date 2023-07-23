@@ -10,6 +10,6 @@ public class OUATTags {
     public static final TagKey<EntityType<?>> FARM_ANIMALS = create("farm_animals");
 
     private static TagKey<EntityType<?>> create(String pName) {
-        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(pName));
+        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(OUATUtils.MOD_ID, pName));
     }
 }

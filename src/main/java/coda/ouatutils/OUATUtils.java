@@ -1,26 +1,25 @@
 package coda.ouatutils;
 
+import coda.ouatutils.registry.ModBiomes;
 import coda.ouatutils.terrablender.OUATBiomes;
-import coda.ouatutils.terrablender.OUATOverworldBiomes;
 import coda.ouatutils.terrablender.OUATRegion;
 import coda.ouatutils.terrablender.OUATSurfaceRuleData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.IForgeRegistry;
 import terrablender.api.Regions;
 import terrablender.api.SurfaceRuleManager;
 
@@ -33,20 +32,17 @@ public class OUATUtils {
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
         forgeBus.addListener(this::addWeather);
-        forgeBus.addListener(this::checkSpawns);
+        forgeBus.addListener(this::removeSpawns);
 
         bus.addListener(this::commonSetup);
-        bus.addGenericListener(Biome.class, this::registerBiomes);
+
+        ModBiomes.BIOMES.register(bus);
     }
 
-    private void registerBiomes(RegistryEvent.Register<Biome> event) {
-        IForgeRegistry<Biome> registry = event.getRegistry();
-        registry.register(OUATOverworldBiomes.regalMeadow().setRegistryName(OUATBiomes.REGAL_MEADOW.location()));
-        registry.register(OUATOverworldBiomes.stormySea().setRegistryName(OUATBiomes.STORMY_SEA.location()));
-        registry.register(OUATOverworldBiomes.rollingHills().setRegistryName(OUATBiomes.ROLLING_HILLS.location()));
-    }
-
-    private void checkSpawns(BiomeLoadingEvent e) {
+    private void removeSpawns(LivingSpawnEvent.CheckSpawn e) {
+        if (e.getEntity().getType().is(OUATTags.FARM_ANIMALS) && (e.getSpawnReason().equals(MobSpawnType.CHUNK_GENERATION) || e.getSpawnReason().equals(MobSpawnType.NATURAL))) {
+            e.setResult(Event.Result.DENY);
+        }
     }
 
     private void addWeather(TickEvent.PlayerTickEvent e) {
