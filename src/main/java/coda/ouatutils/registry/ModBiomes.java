@@ -16,9 +16,7 @@ import java.util.function.Supplier;
 public class ModBiomes {
     public static final DeferredRegister<Biome> BIOMES = DeferredRegister.create(Registry.BIOME_REGISTRY, OUATUtils.MOD_ID);
 
-    public static final RegistryObject<Biome> REGAL_MEADOW = register(OUATBiomes.REGAL_MEADOW, OUATOverworldBiomes::regalMeadow);
-    public static final RegistryObject<Biome> STORMY_SEA = register(OUATBiomes.STORMY_SEA, OUATOverworldBiomes::regalMeadow);
-    public static final RegistryObject<Biome> ROLLING_HILLS = register(OUATBiomes.ROLLING_HILLS, OUATOverworldBiomes::regalMeadow);
+    public static final RegistryObject<Biome> STORMY_SEA = register(OUATBiomes.STORMY_SEA, OUATOverworldBiomes::stormySea);
 
     public static RegistryObject<Biome> register(ResourceKey<Biome> key, Supplier<Biome> biomeSupplier) {
         return BIOMES.register(key.location().getPath(), biomeSupplier);

@@ -9,9 +9,7 @@ public class OUATSurfaceRuleData {
     public static SurfaceRules.RuleSource makeRules() {
 
         return SurfaceRules.sequence(
-            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.REGAL_MEADOW), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD)),
-            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.STORMY_SEA), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD)),
-            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.ROLLING_HILLS), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD))
+            SurfaceRules.ifTrue(SurfaceRules.isBiome(OUATBiomes.STORMY_SEA), SurfaceRuleManager.getDefaultSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD))
         );
     }
 

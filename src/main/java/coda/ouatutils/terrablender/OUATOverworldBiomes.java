@@ -41,6 +41,7 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addSurfaceFreezing(builder);
     }
 
+    // todo
     public static void regalPlainsSpawns(MobSpawnSettings.Builder builder) {
         boolean naturalist = ModList.get().isLoaded("naturalist");
 
@@ -54,26 +55,15 @@ public class OUATOverworldBiomes {
         }
     }
 
-    public static Biome regalMeadow() {
-        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        regalPlainsSpawns(spawnBuilder);
-        BiomeDefaultFeatures.commonSpawns(spawnBuilder);
+    // todo
+    public static void rollingHillsSpawns(MobSpawnSettings.Builder builder) {
+        boolean naturalist = ModList.get().isLoaded("naturalist");
 
-        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
-        globalOverworldGeneration(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
-        BiomeDefaultFeatures.addExtraEmeralds(biomeBuilder);
-        BiomeDefaultFeatures.addPlainGrass(biomeBuilder);
-        BiomeDefaultFeatures.addMeadowVegetation(biomeBuilder);
-        BiomeDefaultFeatures.addMountainTrees(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
-        BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
-
-        Music music = Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW);
-        
-        return biome(Biome.Precipitation.RAIN, 0.5F, 0.5F, spawnBuilder, biomeBuilder, music);
+        if (naturalist) {
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:deer").get(), 6, 1, 3));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:boar").get(), 15, 4, 4));
+            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:butterfly").get(), 6, 1, 3));
+        }
     }
 
     public static Biome stormySea() {
@@ -81,6 +71,7 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.oceanSpawns(spawnBuilder, 3, 4, 15);
         spawnBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 15, 1, 5));
 
+        // todo - extra drowned, extra ship wrecks
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
         globalOverworldGeneration(biomeBuilder);
         BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
@@ -95,32 +86,5 @@ public class OUATOverworldBiomes {
         BiomeDefaultFeatures.addColdOceanExtraVegetation(biomeBuilder);
 
         return biome(Biome.Precipitation.RAIN, 0.25F, 1.0F, 0x4452b3, 0x100e1d, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
-    }
-
-    public static void rollingHillsSpawns(MobSpawnSettings.Builder builder) {
-        boolean naturalist = ModList.get().isLoaded("naturalist");
-
-        if (naturalist) {
-            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:deer").get(), 6, 1, 3));
-            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:boar").get(), 15, 4, 4));
-            builder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.byString("naturalist:butterfly").get(), 6, 1, 3));
-        }
-    }
-
-    public static Biome rollingHills() {
-        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.plainsSpawns(spawnBuilder);
-        rollingHillsSpawns(spawnBuilder);
-
-        BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder();
-        globalOverworldGeneration(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
-        BiomeDefaultFeatures.addPlainGrass(biomeBuilder);
-        BiomeDefaultFeatures.addMeadowVegetation(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultGrass(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
-
-        return biome(Biome.Precipitation.RAIN, 0.6F, 0.4F, spawnBuilder, biomeBuilder, NORMAL_MUSIC);
     }
 }
