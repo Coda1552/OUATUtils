@@ -12,6 +12,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -40,7 +41,7 @@ public class OUATUtils {
     }
 
     private void removeSpawns(LivingSpawnEvent.CheckSpawn e) {
-        if (e.getEntity().getType().is(OUATTags.FARM_ANIMALS) && (e.getSpawnReason().equals(MobSpawnType.CHUNK_GENERATION) || e.getSpawnReason().equals(MobSpawnType.NATURAL))) {
+        if (!e.getLevel().getBiome(e.getEntity().blockPosition()).is(Biomes.PLAINS) && e.getEntity().getType().is(OUATTags.FARM_ANIMALS) && (e.getSpawnReason().equals(MobSpawnType.CHUNK_GENERATION) || e.getSpawnReason().equals(MobSpawnType.NATURAL))) {
             e.setResult(Event.Result.DENY);
         }
     }
