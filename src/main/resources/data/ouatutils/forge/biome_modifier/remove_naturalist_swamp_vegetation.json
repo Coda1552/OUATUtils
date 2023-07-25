@@ -1,0 +1,9 @@
+{
+  "type": "forge:remove_features",
+  "biomes": "minecraft:swamp",
+  "features": [
+    "naturalist:patch_duckweed",
+    "naturalist:patch_cattail"
+  ],
+  "steps": "vegetal_decoration"
+}
