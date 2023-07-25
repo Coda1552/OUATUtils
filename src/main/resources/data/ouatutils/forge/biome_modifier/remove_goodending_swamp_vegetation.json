@@ -1,6 +1,9 @@
 {
   "type": "forge:remove_features",
   "biomes": "minecraft:swamp",
-  "features": "goodending:swamp_vegetation",
+  "features": [
+    "goodending:swamp_vegetation",
+    "goodending:patch_flowering_waterlily"
+  ],
   "step": "vegetal_decoration"
 }
